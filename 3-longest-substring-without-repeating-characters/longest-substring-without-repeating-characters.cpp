@@ -1,21 +1,18 @@
 class Solution {
 public:
-    int lengthOfLongestSubstring(string str) {
-        if(str.size()==0)
-         return 0;
-        int maxans = 0;
-        for(int i = 0;i<str.length(); i++){
-            unordered_set < int > set;
-            for(int j=i;j<str.length();j++){
-                if(set.find(str[j]) != set.end()){
-                    maxans = max(maxans, j-i);
-                    break;
-                }
-                set.insert(str[j]);
+    int lengthOfLongestSubstring(string s) {
+        vector<int> mpp(256,-1);
+        int left= 0, right = 0;
+        int n=s.size();
+        int len= 0;
+        while(right<n){
+            if(mpp[s[right]] != -1){
+                left = max(mpp[s[right]]+1, left);
             }
-            maxans = max(maxans, (int)set.size());
-
+            mpp[s[right]]= right;
+            len= max(len, right-left+1);
+            right++;
         }
-        return maxans;
+        return len;
     }
 };
